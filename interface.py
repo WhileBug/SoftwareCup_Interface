@@ -17,6 +17,12 @@ app = Flask(__name__)
 '''
 def getPrediction(news_info):
     pass
+
+    '''
+    news_info这个变量是如上面的注释所示的格式的dataframe，也就是说lz你收到的news的形式会是这样的，然后你针对这个news_info进行预测
+    预测结果以list[str]的形式，存放在result_list这个变量里，如下面的result_list所示，然后你我之间的交接就完成了
+    '''
+
     result_list = ['教育','旅游','国际']
     result_pd = pd.DataFrame(result_list)
     result_pd.columns=['result']
