@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% macro render_field(field) %} <!-- 定义字段宏 -->
+  <dt>{{ field.label }}:
+  <dd>{{ field(**kwargs)|safe }}
+  {% if field.errors %}
+    <ul class=errors>
+    {% for error in field.errors %}
+      <li>{{ error }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+  </dd>
+{% endmacro %}
+
+<!-- 登录表单 -->
+<form method="POST">
+    {{ form.csrf_token }}
+    {{ render_field(form.username) }}
+    {{ render_field(form.password) }}
+    {% if emsg %}  <!-- 如果有错误信息 则显示 -->
+        <h3> {{ emsg }}</h3>
+    {% endif %}
+    <input type="submit" value="登录">
+</form>
+</body>
+</html>
