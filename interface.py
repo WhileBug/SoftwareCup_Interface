@@ -2,7 +2,7 @@ from flask import request, jsonify, Flask
 import pandas as pd
 from flask_cors import CORS
 app = Flask(__name__)
-CORS(app, resources=r'/*')	# 注册CORS, "/*" 允许访问所有api
+CORS(app, resources=r'/*',supports_credentials=True)	# 注册CORS, "/*" 允许访问所有api
 
 
 '''
