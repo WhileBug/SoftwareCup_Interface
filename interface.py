@@ -1,8 +1,10 @@
 from flask import request, jsonify, Flask
 import pandas as pd
+from flask import Flask, render_template, send_from_directory, request, jsonify,make_response
 from flask_cors import CORS
+import os
 app = Flask(__name__)
-CORS(app, resources=r'/*',supports_credentials=True)	# 注册CORS, "/*" 允许访问所有api
+CORS(app, resources=r'/*',supports_credentials=True)    # 注册CORS, "/*" 允许访问所有api
 
 
 '''
@@ -81,10 +83,18 @@ def uploadCsv():
     print(csv_data)
     # 经过处理之后得到要传回的数据
     res = getPrediction(csv_data)
-
+    file_name = "result.csv"
+    res.to_csv(file_name)
     # 将 DataFrame  数据再次打包为 JSON 并传回
-    res = '{{"predict_results": {} }}'.format(res.to_json(orient="records", force_ascii=False))
-    return res
+    #res = '{{"predict_results": {} }}'.format(res.to_json(orient="records", force_ascii=False))
+    current_path = os.path.abspath(__file__)
+    directory = father_path = os.path.abspath(os.path.dirname(current_path) + os.path.sep + ".")
+    try:
+        response = make_response(
+            send_from_directory(directory, file_name, as_attachment=True))
+        return response
+    except Exception as e:
+        return jsonify({"code": "异常", "message": "{}".format(e)})
 
 if __name__ == '__main__':
     app.run(port=8848)
